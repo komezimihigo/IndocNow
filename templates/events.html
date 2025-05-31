@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upcoming Events - IndocNow</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+ <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<header class="navbar">
+  <div class="home-button-container">
+    <a href="/" class="home-button">
+        <i class="bi bi-arrow-left-circle"></i> return back
+    </a>
+</div>
+
+    <div class="top-tools-bar">
+    <!-- Search Form -->
+    <form method="GET" action="/" class="tool-form">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+
+    <!-- Language Selector -->
+  <nav class="language-nav">
+    <form method="POST" action="/set_language" class="language-form">
+      <select name="language">
+        <option value="en" {% if session.language == 'en' %}selected{% endif %}>English</option>
+        <option value="fr" {% if session.language == 'fr' %}selected{% endif %}>French</option>
+        <option value="rw" {% if session.language == 'rw' %}selected{% endif %}>Kinyarwanda</option>
+        <option value="sw" {% if session.language == 'sw' %}selected{% endif %}>Swahili</option>
+        <option value="ar" {% if session.language == 'ar' %}selected{% endif %}>Arabic</option>
+        <option value="zh-cn" {% if session.language == 'zh-cn' %}selected{% endif %}>Chinese</option>
+        <option value="es" {% if session.language == 'es' %}selected{% endif %}>Spanish</option>
+        <option value="de" {% if session.language == 'de' %}selected{% endif %}>German</option>
+        <option value="pt" {% if session.language == 'pt' %}selected{% endif %}>Portuguese</option>
+      </select>
+      <button type="submit"><i class="bi bi-translate"></i></button>
+    </form>
+  </nav>
+            <!-- Email Subscription -->
+    <form method="POST" action="/subscribe" class="tool-form">
+        <input type="email" name="email" placeholder="Your email" required>
+        <button type="submit"><i class="bi bi-send"></i></button>
+    </form>
+</div>
+
+
+</header>
+
+<main class="events-section">
+  <h2>Upcoming Events</h2>
+
+  <div class="event-list">
+    <div class="event-card">
+      <img src="/static/images/event1.jpg" alt="Event 1">
+      <div class="event-info">
+        <h3>🎓 ICCA-KIAC Joint Conference</h3>
+        <h4>Date: June 5, 2025</h4>
+        <H4>Location: Kigali</H4>
+        <p>A one-day conference co-hosted by the International Council for Commercial Arbitration (ICCA) and the Kigali International Arbitration Centre (KIAC), focusing on "Africa & International Arbitration: Untold Stories." A Young ICCA workshop will follow on June 6.</p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="/static/images/event4.jpg" alt="Event 2">
+      <div class="event-info">
+        <h3>🏃 Kigali International Peace Marathon</h3>
+         <h4>Date: June 8, 2025</h4>
+        <H4>Location: Kigali</H4>
+        <p> An annual marathon promoting peace and unity, attracting both local and international runners.
+</p>
+      </div>
+    </div>
+
+     <div class="event-card">
+      <img src="/static/images/event6.jpg" alt="Event 2">
+      <div class="event-info">
+        <h3> 2025 Kwibuka Women's T20 Tournament</h3>
+         <h4>Date: June 3-14, 2025</h4>
+        <H4>Location: Gahanga International Cricket Stadium, Kigali</H4>
+        <p> An international women's cricket tournament commemorating the 1994 genocide against the Tutsi, featuring teams from Rwanda, Uganda, Nigeria, and others.</p>
+      </div>
+    </div>
+
+ <div class="event-card">
+      <img src="/static/images/event5.webp" alt="Event 2">
+      <div class="event-info">
+        <h3>🧬 Twelfth EDCTP Forum</h3>
+         <h4>Date: June 15-20, 2025</h4>
+        <H4>Location: Kigali Convention Centre</H4>
+        <p> A forum hosted by the Ministry of Health of Rwanda and the Rwanda Biomedical Centre, focusing on global health research partnerships.</p>
+      </div>
+    </div>
+
+
+    <div class="event-card">
+      <img src="/static/images/event2.jpeg" alt="Event 2">
+      <div class="event-info">
+        <h3>🎓 Kigali International Education Fair 2025</h3>
+        <h4>Date: June 10, 2025</h4>
+        <p>This is another editable event block. Add your own image and description as needed.</p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="/static/images/Match1.jpg" alt="Event 2">
+      <div class="event-info">
+        <h3>⚽ FIFA Club World Cup</h3>
+        <h4>Date: June 15-july 13, 2025</h4>
+        <h4>Location: USA</h4>
+        <p> The revamped tournament features 32 top clubs, including Manchester City, Real Madrid, PSG, and Bayern Munich. Matches will be held across 12 U.S. cities, with the final at MetLife Stadium in New Jersey. </p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="/static/images/event8.jpg" alt="Event 2">
+      <div class="event-info">
+        <h3>🏛️ NATO Summit 2025</h3>
+        <h4>Date: June 24-26, 2025</h4>
+         <h4>Location: The Hague, Netherlands</h4>
+        <p>: A gathering of heads of state and government from NATO member countries to discuss defense funding, membership status, and future plans. </p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="/static/images/event7.jpeg" alt="Event 2">
+      <div class="event-info">
+        <h3>🥋 World Judo Championships</h3>
+        <h4>Date: June 13-20, 2025</h4>
+        <h4>Location: Budapest, Hungary</h4>
+        <p>Featuring 15 events, including men's, women's, and mixed team competitions, with nearly €1 million in prize money. </p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="/static/images/event3.jpg" alt="Event 2">
+      <div class="event-info">
+        <h3>🎤 Summerfest</h3>
+        <h4>Dates: June 19–21, June 26–28, and July 5–7</h4>
+        <h4>Location: Milwaukee, Wisconsin, USA</h4>
+        <p> One of the world's largest music festivals, featuring over 600 artists across multiple stages.</p>
+      </div>
+    </div>
+
+    <!-- Add more events as needed -->
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="social-icons">
+    <a href="#"><i class="bi bi-facebook"></i></a>
+    <a href="#"><i class="bi bi-instagram"></i></a>
+    <a href="#"><i class="bi bi-twitter-x"></i></a>
+    <a href="#"><i class="bi bi-envelope-fill"></i></a>
+  </div>
+  <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
+
+

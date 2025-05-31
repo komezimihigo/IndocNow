@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }} - IndocNow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+ <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<!-- Header -->
+<header class="navbar">
+
+    <div class="top-tools-bar">
+    <!-- Search Form -->
+    <form method="GET" action="/" class="tool-form">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+
+
+    <nav class="language-nav">
+        <form method="POST" action="/set_language" class="language-form">
+            <select name="language">
+                <option value="en" {% if session.language == 'en' %}selected{% endif %}>English</option>
+                <option value="fr" {% if session.language == 'fr' %}selected{% endif %}>French</option>
+                <option value="rw" {% if session.language == 'rw' %}selected{% endif %}>Kinyarwanda</option>
+                <option value="sw" {% if session.language == 'sw' %}selected{% endif %}>Swahili</option>
+                <option value="ar" {% if session.language == 'ar' %}selected{% endif %}>Arabic</option>
+                <option value="zh-cn" {% if session.language == 'zh-cn' %}selected{% endif %}>Chinese</option>
+                <option value="es" {% if session.language == 'es' %}selected{% endif %}>Spanish</option>
+                <option value="de" {% if session.language == 'de' %}selected{% endif %}>German</option>
+                <option value="pt" {% if session.language == 'pt' %}selected{% endif %}>Portuguese</option>
+            </select>
+            <button type="submit"><i class="bi bi-translate"></i></button>
+        </form>
+    </nav>     <!-- Email Subscription -->
+    <form method="POST" action="/subscribe" class="tool-form">
+        <input type="email" name="email" placeholder="Your email" required>
+        <button type="submit"><i class="bi bi-send"></i></button>
+    </form>
+</div>
+</header>
+
+
+
+<!-- Article Section -->
+<main class="article-container">
+    <h1>{{ article.title }}</h1>
+
+{% if article.audio_path %}
+        <h3>Listen:</h3>
+        <audio controls>
+            <source src="{{ article.audio_path }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    {% else %}
+        <p><em>Audio not available.</em></p>
+    {% endif %}
+
+    {% if article.image %}
+        <img src="{{ article.image }}" alt="Article image" class="article-image" />
+    {% endif %}
+
+
+
+    <div class="article-text">
+        <p>{{ article.content }}</p>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="social-icons">
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-envelope-fill"></i></a>
+    </div>
+    <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IndocNow - Global News</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+ <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+<header class="navbar">
+  <div class="left-buttons">
+    <a href="/live" class="nav-btn yellow"><i class="bi bi-lightning"></i> Live Score</a>
+    <a href="/events" class="nav-btn yellow"><i class="bi bi-calendar-event"></i> Events</a>
+    <a href="/about" class="nav-btn yellow"><i class="bi bi-info-circle"></i> About</a>
+  </div>
+
+
+  <div class="middle-title">
+    <h1 class="logo">IndocNow</h1>
+  </div>
+
+  <div class="right-tools">
+    <form method="GET" action="/" class="search-form">
+      <input type="text" name="q" placeholder="Search..." />
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+
+        <form method="POST" action="/set_language" class="language-form">
+            <select name="language">
+    <option value="en" {% if session.language == 'en' %}selected{% endif %}>English</option>
+    <option value="fr" {% if session.language == 'fr' %}selected{% endif %}>French</option>
+    <option value="sw" {% if session.language == 'sw' %}selected{% endif %}>Swahili</option>
+    <option value="rw" {% if session.language == 'rw' %}selected{% endif %}>Kinyarwanda</option>
+    <option value="ar" {% if session.language == 'ar' %}selected{% endif %}>Arabic</option>
+    <option value="zh-cn" {% if session.language == 'zh-cn' %}selected{% endif %}>Chinese</option>
+    <option value="es" {% if session.language == 'es' %}selected{% endif %}>Spanish</option>
+    <option value="de" {% if session.language == 'de' %}selected{% endif %}>German</option>
+    <option value="pt" {% if session.language == 'pt' %}selected{% endif %}>Portuguese</option>
+  </select>
+  <button type="submit"><i class="bi bi-translate"></i></button>
+        </form>
+
+
+  </div>
+</header>
+
+<div class="ad-slider-wrapper">
+  <!-- Matches -->
+
+
+  <div class="vertical-ad-container" id="match-slider">
+    <div class="vertical-ad-track">
+      <img src="/static/images/match1.jpg" class="ad-frame">
+      <img src="/static/images/match4.jpg" class="ad-frame">
+      <img src="/static/images/match2.jpeg" class="ad-frame">
+      <img src="/static/images/match5.jpeg" class="ad-frame">
+    </div>
+  </div>
+
+  <!-- Ads -->
+  <div class="vertical-ad-container" id="ad-slider">
+    <div class="vertical-ad-track">
+      <img src="/static/images/ad2.jpg" class="ad-frame">
+      <img src="/static/images/ad3.png" class="ad-frame">
+      <img src="/static/images/ad4.png" class="ad-frame">
+      <img src="/static/images/ad5.png" class="ad-frame">
+    </div>
+  </div>
+
+  <!-- Movies -->
+</div>
+
+
+<!-- Category Button -->
+<div class="category-toggle">
+  <button id="categoryBtn">All Categories <i class="bi bi-caret-down-fill"></i></button>
+  <div id="categoryList" class="category-list">
+    {% for cat in categories %}
+      <a href="/?category={{ cat }}">{{ cat|capitalize }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- News Articles -->
+<section class="article-grid">
+  {% if articles %}
+    {% for article in articles %}
+      <div class="article-card">
+        {% if article.image %}
+          <img src="{{ article.image }}" alt="News Image" />
+        {% endif %}
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.content[:150] }}...</p>
+        <a href="/article/{{ article.id }}" class="read-more">Read more</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="text-align:center; padding: 30px;">No news available at the moment.</p>
+  {% endif %}
+</section>
+<div class="info-bar">
+  <div class="weather" id="weather-box">
+    <i class="bi bi-cloud-sun"></i> <span id="weather-text">Loading weather...</span>
+  </div>
+  <div class="currency" id="currency-box">
+    <i class="bi bi-currency-exchange"></i> <span id="currency-text">Loading rates...</span>
+  </div>
+</div>
+ <div class="vertical-ad-container" id="movie-slider">
+    <div class="vertical-ad-track">
+      <img src="/static/images/movie1.jpg" class="ad-frame">
+      <img src="/static/images/movie2.jpg" class="ad-frame">
+      <img src="/static/images/movie3.png" class="ad-frame">
+      <img src="/static/images/movie4.jpeg" class="ad-frame">
+    </div>
+  </div>
+<!-- Footer -->
+<footer class="footer">
+  <div class="social-icons centered">
+    <a href="#"><i class="bi bi-facebook"></i></a>
+    <a href="#"><i class="bi bi-instagram"></i></a>
+    <a href="#"><i class="bi bi-twitter-x"></i></a>
+    <a href="#"><i class="bi bi-envelope-fill"></i></a>
+  </div>
+  <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
+</footer>
+
+<script>
+  // Toggle categories
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("categoryBtn");
+    const list = document.getElementById("categoryList");
+    btn.addEventListener("click", () => {
+      list.classList.toggle("show");
+    });
+  });
+</script>
+
+</body>
+</html>

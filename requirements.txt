@@ -1,0 +1,9 @@
+Flask
+requests
+newspaper3k
+gTTS
+Flask-Mail
+deep_translator
+gunicorn
+lxml-html-clean
+beautifulsoup4
