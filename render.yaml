@@ -1,7 +1,6 @@
 services:
   - type: web
-    name: indocnow
+    name: IndocNow
     env: python
-    plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python app.py"
+    buildCommand: ""
+    startCommand: gunicorn app:app
