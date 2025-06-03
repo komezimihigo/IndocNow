@@ -115,3 +115,24 @@ window.onload = () => {
   loadWeather();
   loadCurrency();
 };
+
+
+function shareArticle() {
+  if (navigator.share) {
+    navigator.share({
+      title: document.title,
+      text: "Check out this article from IndocNow!",
+      url: window.location.href
+    })
+    .then(() => console.log('Shared successfully'))
+    .catch((error) => console.log('Error sharing', error));
+  } else {
+    alert("Sharing not supported on this browser.");
+  }
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => alert("Link copied!"))
+    .catch(() => alert("Failed to copy link."));
+}
