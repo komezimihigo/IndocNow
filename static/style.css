@@ -696,6 +696,7 @@ footer.footer a:hover {
     gap: 12px;
     margin-top: 10px;
     flex-wrap: wrap;
+    background: #ffd700;
   }
 
   .share-buttons button {
