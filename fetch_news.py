@@ -70,7 +70,7 @@ def fetch_all_articles():
         try:
             paper = build(site, memoize_articles=False)
             reject_keywords = ["category", "advertisement", "subscribe", "terms", "privacy", "404", "error"]
-            for a in paper.articles[:2]:
+            for a in paper.articles[:4]:
                 try:
                     a.download()
                     a.parse()
@@ -117,7 +117,7 @@ def fetch_all_articles():
         print("Fetching GNews...")
         gresp = requests.get(f"https://gnews.io/api/v4/top-headlines?lang=en&token={GNEWS_API}")
         data = gresp.json()
-        for a in data.get("articles", [])[:3]:
+        for a in data.get("articles", [])[:4]:
             articles.append({
                 "id": article_id,
                 "title": a['title'],
@@ -133,7 +133,7 @@ def fetch_all_articles():
         print("Fetching Currents...")
         cresp = requests.get(f"https://api.currentsapi.services/v1/latest-news?apiKey={CURRENTS_API}")
         data = cresp.json()
-        for a in data.get("news", [])[:3]:
+        for a in data.get("news", [])[:4]:
             articles.append({
                 "id": article_id,
                 "title": a['title'],
@@ -149,7 +149,7 @@ def fetch_all_articles():
         print("Fetching NewsAPI...")
         nresp = requests.get(f"https://newsapi.org/v2/top-headlines?language=en&pageSize=5&apiKey={NEWSAPI_KEY}")
         data = nresp.json()
-        for a in data.get("articles", [])[:3]:
+        for a in data.get("articles", [])[:4]:
             articles.append({
                 "id": article_id,
                 "title": a['title'],
