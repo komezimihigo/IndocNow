@@ -3,6 +3,7 @@ from fetch_news import fetch_all_articles, get_article_by_id
 from voice_reader import generate_voice
 from translator import translate_text
 import datetime
+import os
 from flask_mail import Mail, Message
 
 
@@ -145,4 +146,5 @@ def events():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.enveron.get("PORT, 5000"))
+    app.run(host="0.0.0.0", port=port)
