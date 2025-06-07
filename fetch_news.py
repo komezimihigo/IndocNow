@@ -133,7 +133,7 @@ def fetch_all_articles():
         print("Fetching Currents...")
         cresp = requests.get(f"https://api.currentsapi.services/v1/latest-news?apiKey={CURRENTS_API}")
         data = cresp.json()
-        for a in data.get("news", [])[:4]:
+        for a in data.get("articles", [])[:4]:
             articles.append({
                 "id": article_id,
                 "title": a['title'],
