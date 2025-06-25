@@ -7,5 +7,4 @@ deep_translator
 gunicorn
 lxml-html-clean
 beautifulsoup4
-os
 uuid
