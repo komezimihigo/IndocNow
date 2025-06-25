@@ -8,3 +8,4 @@ gunicorn
 lxml-html-clean
 beautifulsoup4
 uuid
+cloudinary
