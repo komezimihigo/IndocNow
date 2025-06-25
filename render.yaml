@@ -3,7 +3,7 @@ services:
     name: IndocNow
     env: python
     buildCommand: ""
-    startCommand: gunicorn app:append
+    startCommand: gunicorn app:app
     plan: free
     envVars:
       - key: FLASK_ENV
