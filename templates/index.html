@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>IndocNow - Global News</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='images/z-icon.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -97,29 +98,59 @@
   </div>
 </div>
 
-<!-- News Articles -->
-<section class="article-grid">
-  {% if articles %}
+   <!-- Article Section -->
+     <section class="article-grid">
+
+
+        {% for article in raw_articles %}
+         <div class="article-card">
+         <div class="article-text">
+           {% if article.image and article.image.strip() != '' %}
+  <img src="{{ article.image }}" alt="News Image" />
+{% else %}
+  <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="Default Image" />
+{% endif %}
+<h2>{{ article.title }}</h2>
+
+            <p>{{ article.content }}</p>
+</div>
+
+<a href="{{ url_for('show_article', article_id=article.id) }}" class="read-more">Read more</a>
+
+</div>
+
+
+        {% endfor %}
+
+ {% if articles %}
     {% for article in articles %}
       <div class="article-card">
-        {% if article.image %}
-          <img src="{{ article.image }}" alt="News Image" />
-        {% endif %}
-        <h3>{{ article.title }}</h3>
+
+          {% if article.image and article.image.strip() != '' %}
+  <img src="{{ article.image }}" alt="News Image" />
+{% else %}
+  <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="Default Image" />
+{% endif %}
+       <div class="article-text">
+           <h3>{{ article.title }}</h3>
         <p>{{ article.content[:150] }}...</p>
+       </div>
         <a href="/article/{{ article.id }}" class="read-more">Read more</a>
+
       </div>
     {% endfor %}
-  {% else %}
-    <p style="text-align:center; padding: 30px;">No news available at the moment.</p>
+
   {% endif %}
+
+
+
 </section>
 <div class="info-bar">
-  <div class="weather" id="weather-box">
+  <div id="weather-box">
     <i class="bi bi-cloud-sun"></i> <span id="weather-text">Loading weather...</span>
   </div>
-  <div class="currency" id="currency-box">
-    <i class="bi bi-currency-exchange"></i> <span id="currency-text">Loading rates...</span>
+  <div class="currency" id="currency-list">
+    <i class="bi bi-currency-exchange"></i> <span id="currency-text">Loading...</span>
   </div>
 </div>
  <div class="vertical-ad-container" id="movie-slider">
@@ -137,6 +168,10 @@
     <a href="#"><i class="bi bi-instagram"></i></a>
     <a href="#"><i class="bi bi-twitter-x"></i></a>
     <a href="#"><i class="bi bi-envelope-fill"></i></a>
+    <a href="/admin" class="read">a</a>
+
+
+
   </div>
   <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
 </footer>
@@ -154,3 +189,5 @@
 
 </body>
 </html>
+
+

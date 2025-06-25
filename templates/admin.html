@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IndocNow Admin</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/z-icon.png') }}" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="navbar">
+    <h1 class="logo">IndocNow Admin</h1>
+    <a href="{{ url_for('index') }}" class="nav-btn">← Back</a>
+  </header>
+
+  {% if not show_form %}
+    <h2>🔐 Admin Login</h2>
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+      <input type="password" name="password" placeholder="Enter admin password" required>
+      <button type="submit">Submit</button>
+    </form>
+
+  {% else %}
+    <h2>📰 Post New Article</h2>
+
+    <form method="POST">
+      <label>Title:</label><br>
+      <input type="text" name="title" required><br><br>
+
+      <label>Content:</label><br>
+      <textarea name="content" rows="7" required></textarea><br><br>
+
+      <label>Image URL:</label><br>
+      <input type="text" name="image_url" id="image_url" readonly><br><br>
+
+      <button type="button" onclick="openUploadWidget()">📤 Upload Image</button><br><br>
+      <img src=" " id="previewImage" style="display:none; max-width:100%; border:1px solid #ddd;"><br><br>
+
+      <button type="submit">✅ Post Article</button>
+    </form>
+  {% endif %}
+
+  <!-- Cloudinary Upload -->
+  <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script>
+function openUploadWidget() {
+  cloudinary.openUploadWidget({
+    cloudName: 'dojkqtwxq',
+    uploadPreset: 'IndocNow',
+    sources: ['local', 'camera', 'url'],
+    multiple: false,
+    folder: 'indocnow/articles',
+    resourceType: 'image'
+  }, function (error, result) {
+    console.log("Upload error:", error);
+    console.log("Upload result:", result);
+
+    // ✅ Fix: handle both Cloudinary return formats
+    let imageUrl = "";
+
+    if (result && Array.isArray(result) && result[0]?.secure_url) {
+      imageUrl = result[0].secure_url;
+    } else if (result?.event === "success" && result?.info?.secure_url) {
+      imageUrl = result.info.secure_url;
+    }
+
+    if (imageUrl) {
+      document.getElementById("image_url").value = imageUrl;
+      const preview = document.getElementById("previewImage");
+      preview.src = imageUrl;
+      preview.style.display = "block";
+    } else {
+      alert("Upload failed. No image URL found.");
+    }
+  });
+}
+</script>
+</body>
+</html>
+
+

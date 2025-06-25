@@ -3,4 +3,4 @@ services:
     name: IndocNow
     env: python
     buildCommand: ""
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:append

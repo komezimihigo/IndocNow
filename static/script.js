@@ -98,17 +98,33 @@ function loadWeather() {
 
 
 
-async function loadCurrency() {
-  try {
-    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
-    const data = await res.json();
-    const rate = data.rates.RWF; // Rwandan Franc
-    document.getElementById("currency-text").innerText = `1 USD = ${rate} RWF`;
-  } catch {
-    document.getElementById("currency-text").innerText = "Rate unavailable";
-  }
-}
+fetch("https://api.exchangerate-api.com/v4/latest/USD")
+  .then(res => res.json())
+  .then(data => {
+    const rates = data.rates;
+    const currencyList = document.getElementById("currency-list");
 
+    const wantedCurrencies = [
+      { code: "RWF", name: "Rwandan Franc" },
+      { code: "KES", name: "Kenyan Shilling" },
+      { code: "UGX", name: "Ugandan Shilling" },
+      { code: "EUR", name: "Euro" },
+      { code: "GBP", name: "British Pound" },
+      { code: "TZS", name: "Tanzanian Shilling" }
+    ];
+
+    currencyList.innerHTML = ""; // Clear "Loading..."
+
+    wantedCurrencies.forEach(curr => {
+      const li = document.createElement("li");
+      li.textContent = `1 USD = ${rates[curr.code]} ${curr.code} (${curr.name})`;
+      currencyList.appendChild(li);
+    });
+  })
+  .catch(err => {
+    document.getElementById("currency-list").innerHTML = "<li>Currency data unavailable</li>";
+    console.error("Currency fetch error:", err);
+  });
 
 
 window.onload = () => {

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-
+<div class="wrapper">
 <script src="{{ url_for('static', filename='script.js') }}"></script><!-- Header --><header class="navbar">
     <div class="top-tools-bar">
         <!-- Search Form -->
@@ -39,8 +39,11 @@
     </form>
 </div>
 
-</header><!-- Article Section --><main class="article-container">
-    <h1>{{ article.title }}</h1>{% if article.audio_path %}
+</header><main class="article-container">
+
+    <h1>{{ article.title }}</h1>
+
+    {% if article.audio_path %}
     <h3>Listen:</h3>
     <audio controls>
         <source src="{{ article.audio_path }}" type="audio/mpeg">
@@ -50,18 +53,16 @@
     <p><em>Audio not available.</em></p>
 {% endif %}
 
-{% if article.image %}
-    <img src="{{ article.image if article.image else url_for('static', filename='image/news.jpg') }}" alt="Article image" class="article-image" />
-{% endif %}
+    {% if article.image %}
+    <img src="{{ article.image if article.image else url_for('static', filename='image/news.jpg') }}" alt="article Image">
+    {% else %}
+    <p><em>No image available for this article.</em></p>
+    {% endif %}
 
-<div class="article-text">
     <p>{{ article.content }}</p>
-</div>
 
 
-
-
-    <button  class="read-more" onclick="shareArticle()"><i class="bi bi-share"></i> Share</button></div>
+   <button  class="read-more" onclick="shareArticle()"><i class="bi bi-share"></i> Share</button>
     <button class="read-more" onclick="copyLink()"><i class="bi bi-link"></i> Copy Link</button>
 
 
@@ -73,9 +74,7 @@
         <a href="#"><i class="bi bi-envelope-fill"></i></a>
     </div>
     <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
- </footer>
-
-<script>
+</footer><script>
 function copyLink() {
     navigator.clipboard.writeText(window.location.href)
         .then(() => alert("Link copied to clipboard!"))
@@ -92,5 +91,7 @@ function shareArticle() {
         alert("Sharing not supported in this browser.");
     }
 }
-</script></body>
+</script>
+</div>
+</body>
 </html>
