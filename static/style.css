@@ -621,7 +621,7 @@ footer.footer a:hover {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 400px;
   margin: auto;
 }
 

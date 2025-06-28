@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Open Graph Meta Tags for Social Sharing -->
+<meta property="og:title" content="{{ article.title }}">
+<meta property="og:description" content="{{ article.content[:150] }}">
+<meta property="og:image" content="{{ article.image }}">
+<meta property="og:url" content="https://indocnow.onrender.com/article/{{ article.id }}">
+<meta property="og:type" content="article">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ article.title }}">
+<meta name="twitter:description" content="{{ article.content[:150] }}">
+<meta name="twitter:image" content="{{ article.image }}">
 </head>
 <body>
 <div class="wrapper">
