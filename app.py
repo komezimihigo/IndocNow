@@ -91,28 +91,31 @@ def index():
 @app.route("/article/<int:id>")
 @protect_route
 def article(id):
-    language = session.get("language", "en")
     article = get_article_by_id(articles_store, id)
 
-    if not article:
-        return "Article not found", 404
+    # ✅ Protect against string errors
+    if not article or not isinstance(article, dict):
+        return "Invalid or missing article", 404
 
-    for article in article:
+    # ✅ Set default image if missing
+    if not article.get("image") or article["image"].strip() == "":
+        article["image"] = "/static/images/default.jpg"
 
-        if not article.get("image") or article["image"].strip() == "":
-            article["image"] = url_for("static", filename="images/default.jpg")
-    translated_text = translate_text(article["content"], language)
-    audio_path = generate_voice(translated_text, id)
+    # ✅ Translate content
+    language = session.get("language", "en")
+    translated_title = translate_text(article["title"], language)
+    translated_content = translate_text(article["content"], language)
+    audio_path = generate_voice(translated_content, id)
 
-    return render_template("article.html",
-                           article={
-                               "title": translate_text(article["title"], language),
-                               "content": translated_text,
-                               "image": article["image"],
-                               "audio_path": audio_path
-                           },
-                           current_year=datetime.datetime.now().year)
+    print("FULL CONTENT:", article["content"])
+    print("LENGTH:", len(article["content"]))
 
+    return render_template("article.html", article={
+        "title": translated_title,
+        "content": translated_content,
+        "image": article["image"],
+        "audio_path": audio_path
+    }, current_year=datetime.datetime.now().year)
 
 @app.route("/set_language", methods=["POST"])
 @protect_route

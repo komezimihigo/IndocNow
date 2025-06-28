@@ -85,7 +85,7 @@ def fetch_all_articles():
     for site in NEWS_SITES:
         try:
             paper = build(site, memoize_articles=False)
-            for a in paper.articles[:4]:
+            for a in paper.articles[:6]:
                 try:
                     a.download()
                     a.parse()
@@ -115,7 +115,7 @@ def fetch_all_articles():
         print("Fetching GNews...")
         gresp = requests.get(f"https://gnews.io/api/v4/top-headlines?lang=en&token={GNEWS_API}")
         data = gresp.json()
-        for a in data.get("articles", [])[:4]:
+        for a in data.get("articles", [])[:6]:
             title = a.get("title", "")
             if title and title not in unique_titles:
                 articles.append({
@@ -134,7 +134,7 @@ def fetch_all_articles():
         print("Fetching Currents...")
         cresp = requests.get(f"https://api.currentsapi.services/v1/latest-news?apiKey={CURRENTS_API}")
         data = cresp.json()
-        for a in data.get("news", [])[:4]:
+        for a in data.get("news", [])[:6]:
             title = a.get("title", "")
             if title and title not in unique_titles:
                 articles.append({
@@ -153,7 +153,7 @@ def fetch_all_articles():
         print("Fetching NewsAPI...")
         nresp = requests.get(f"https://newsapi.org/v2/top-headlines?language=en&pageSize=5&apiKey={NEWSAPI_KEY}")
         data = nresp.json()
-        for a in data.get("articles", [])[:4]:
+        for a in data.get("articles", [])[:6]:
             title = a.get("title", "")
             if title and title not in unique_titles:
                 articles.append({
@@ -178,7 +178,7 @@ def fetch_all_articles():
 # Get a single article by ID
 def get_article_by_id(articles, article_id):
     for a in articles:
-        if a["id"] == article_id:
+        if str(a["id"]) == str(article_id):
             return a
     return None
 

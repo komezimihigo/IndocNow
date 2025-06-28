@@ -17,6 +17,18 @@
 
   gtag('config', 'G-KNMV7BPDRK');
 </script>
+    <!-- Open Graph Meta Tags for Social Sharing -->
+<meta property="og:title" content="{{ article.title }}">
+<meta property="og:description" content="{{ article.content[:150] }}">
+<meta property="og:image" content="{{ article.image }}">
+<meta property="og:url" content="https://indocnow.onrender.com/article/{{ article.id }}">
+<meta property="og:type" content="article">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ article.title }}">
+<meta name="twitter:description" content="{{ article.content[:150] }}">
+<meta name="twitter:image" content="{{ article.image }}">
 </head>
 <body>
  <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -145,20 +157,20 @@
 
 
 </section>
-<div class="info-bar">
-  <div id="weather-box">
+
+  <div class="weather" id="weather-box">
     <i class="bi bi-cloud-sun"></i> <span id="weather-text">Loading weather...</span>
   </div>
   <div class="currency" id="currency-list">
     <i class="bi bi-currency-exchange"></i> <span id="currency-text">Loading...</span>
   </div>
-</div>
+
  <div class="vertical-ad-container" id="movie-slider">
     <div class="vertical-ad-track">
-      <img src="/static/images/movie1.jpg" class="ad-frame">
-      <img src="/static/images/movie2.jpg" class="ad-frame">
-      <img src="/static/images/movie3.png" class="ad-frame">
-      <img src="/static/images/movie4.jpeg" class="ad-frame">
+      <img src="/static/images/movie1.jpeg" class="ad-frame">
+      <img src="/static/images/movie2.jpeg" class="ad-frame">
+      <img src="/static/images/movie3.jpg" class="ad-frame">
+      <img src="/static/images/movie4.jpg" class="ad-frame">
     </div>
   </div>
 <!-- Footer -->
