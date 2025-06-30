@@ -10,13 +10,14 @@ CACHE_DURATION = timedelta(hours=48)  # Cache is valid for 48 hours
 
 # Stable, fetchable news sites (1 per country)
 NEWS_SITES = [
-    "https://igihe.com/amakuru/u-rwanda",
-    "https://www.newtimes.co.rw/news",
-    "https://rwandatoday.africa/",
+
     "https://www.umuseke.rw/",
     "https://www.kigalitoday.com/",
     "https://nation.africa/",
     "https://www.graphic.com.gh/",
+    "https://igihe.com/amakuru/u-rwanda",
+    "https://www.newtimes.co.rw/news",
+    "https://rwandatoday.africa/",
     "https://www.news24.com/",
     "https://www.monitor.co.ug/",
     "https://www.thecitizen.co.tz/",
@@ -95,7 +96,7 @@ def fetch_all_articles():
 
                     if (len(title) > 10 and len(content) > 2000 and
                             not any(word in title.lower() for word in
-                                    ["advertisement", "subscribe", "terms", "404", "privacy", "error"]) and
+                                    ["advertisement", "kwamamaza","keza" "subscribe", "terms", "404", "privacy", "error"]) and
                             title not in unique_titles):
                         articles.append({
                             "id": article_id,

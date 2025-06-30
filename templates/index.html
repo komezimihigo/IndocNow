@@ -18,6 +18,12 @@
   gtag('config', 'G-KNMV7BPDRK');
 </script>
 
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.classList.toggle("show");
+  }
+</script>
 </head>
 <body>
  <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -26,11 +32,17 @@
 
 
 <header class="navbar">
-  <div class="left-buttons">
-    <a href="/live" class="nav-btn yellow"><i class="bi bi-lightning"></i> Live Score</a>
-    <a href="/events" class="nav-btn yellow"><i class="bi bi-calendar-event"></i> Events</a>
-    <a href="/about" class="nav-btn yellow"><i class="bi bi-info-circle"></i> About</a>
+  <!-- Hamburger icon -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <i class="bi bi-list"></i> <!-- Bootstrap icon -->
   </div>
+
+  <!-- Main menu -->
+  <nav class="nav-links" id="navMenu">
+    <a href="/live">Live Score</a>
+    <a href="/events">Events</a>
+    <a href="/about">About</a>
+  </nav>
 
 
   <div class="middle-title">

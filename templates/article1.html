@@ -28,7 +28,13 @@
         <form method="GET" action="/" class="tool-form">
             <input type="text" name="q" placeholder="Search...">
             <button type="submit"><i class="bi bi-search"></i></button>
-        </form><!-- Language Selection -->
+        </form>
+
+         <div class="home-button-container">
+    <a href="/" class="home-button">
+        <i class="bi bi-arrow-left-circle"></i></a>
+</div>
+        <!-- Language Selection -->
     <form method="POST" action="/set_language" class="language-form">
         <select name="language">
             <option value="en" {% if session.language == 'en' %}selected{% endif %}>English</option>
