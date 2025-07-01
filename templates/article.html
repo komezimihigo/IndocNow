@@ -19,6 +19,15 @@
 <meta name="twitter:title" content="{{ article.title }}">
 <meta name="twitter:description" content="{{ article.content[:150] }}">
 <meta name="twitter:image" content="{{ article.image }}">
+
+ <title>{{ article.title if article else "IndocNow - Global News" }}</title>
+<meta name="description" content="{{ article.content[:150] if article else 'Latest world and African news' }}">
+<meta name="keywords" content="Rwanda news, African news, global news, sports, politics">
+<meta name="author" content="IndocNow">
+<link rel="canonical" href="https://indocnow.onrender.com{{ request.path }}">
+
+    <meta name="google-site-verification" content="R1gYkcgT0mnnIulZM4s28dkkOrrVnIaVaPvTqUz0mKs" />
+
 </head>
 <body>
 
@@ -54,11 +63,7 @@
         <input type="email" name="email" placeholder="Your email" required>
         <button type="submit"><i class="bi bi-send"></i></button>
     </form>
-</div>
-    <div class="home-button-container">
-    <a href="/" class="home-button">
-        <i class="bi bi-arrow-left-circle"></i></a>
-</div>
+
 
 </header><!-- Article Section --><main class="article-container">
     <h1>{{ article.title }}</h1>{% if article.audio_path %}

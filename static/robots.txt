@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://indocnow.onrender.com/sitemap.xml
