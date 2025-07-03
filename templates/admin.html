@@ -40,10 +40,29 @@
 
       <button type="button" onclick="openUploadWidget()">📤 Upload Image</button><br><br>
       <img src=" " id="previewImage" style="display:none; max-width:100%; border:1px solid #ddd;"><br><br>
-
+      <label>Tags (comma-separated):</label><br>
+      <input type="text" name="tags" placeholder="e.g., politics, sports"><br><br>
+      <label>Embed Video URL (YouTube):</label><br>
+<input type="text" name="video"><br><br>
       <button type="submit">✅ Post Article</button>
     </form>
+
+
+<h3>Post Breaking News</h3>
+<form method="POST">
+  <input type="hidden" name="action" value="breaking">
+  <label>Breaking News Text:</label><br>
+  <input type="text" name="breaking_text" required>
+  <button type="submit">Post Breaking News</button>
+  <label>Tags (comma-separated):</label><br>
+<input type="text" name="tags" placeholder="e.g., politics, sports"><br><br>
+  <label>Embed Video URL (YouTube):</label><br>
+<input type="text" name="video"><br><br>
+</form>
+
   {% endif %}
+
+
 
   <!-- Cloudinary Upload -->
   <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>

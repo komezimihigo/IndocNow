@@ -28,6 +28,9 @@
 
     <meta name="google-site-verification" content="R1gYkcgT0mnnIulZM4s28dkkOrrVnIaVaPvTqUz0mKs" />
      <meta name="msvalidate.01" content="7CA08F751525BEAEF4EFA16289D369B3" />
+    <meta name="description" content="{{ article.title or 'Latest trusted news from around the world' }}">
+<meta name="keywords" content="news, Rwanda, Africa, global, politics, IndocNow">
+<meta name="author" content="IndocNow Team">
 
 </head>
 <body>
@@ -56,7 +59,7 @@
             <option value="de" {% if session.language == 'de' %}selected{% endif %}>German</option>
             <option value="pt" {% if session.language == 'pt' %}selected{% endif %}>Portuguese</option>
         </select>
-        <button type="submit"><i class="bi bi-translate"></i></button>
+        <button type="submit"></button>
     </form>
 
     <!-- Email Subscription -->
@@ -87,11 +90,25 @@
 
 </div>
 
+<hr>
+<h3>Leave a Comment</h3>
+<form method="POST" action="/comment/{{ article.id }}" class="food" >
+  <input  type="text" name="name" placeholder="Your name" required><br><br>
+  <textarea  name="text"   placeholder="Your comment..." required></textarea><br><br>
+  <button class="take" type="submit">Post</button>
+</form>
+
+<h3>Comments:</h3>
+{% for c in comments %}
+  <p><strong>{{ c.name }}</strong>: {{ c.text }}</p>
+{% endfor %}
+
+<p>Tags: {% for tags in article.tags %}
+    <span>#{{ tag }}</span> {% endfor %}</p>
 
 
-
-    <button  class="read-more" onclick="shareArticle()"><i class="bi bi-share"></i> Share</button>
-    <button class="read-more" onclick="copyLink()"><i class="bi bi-link"></i> Copy Link</button>
+    <button class="take" onclick="shareArticle()"><i class="bi bi-share"></i> Share</button>
+    <button class="take" onclick="copyLink()"><i class="bi bi-link"></i> Copy Link</button>
 
 
 </main><!-- Footer --><footer class="footer">

@@ -7,6 +7,9 @@ import datetime
 import uuid
 import json
 from flask_mail import Mail, Message
+from flask import make_response, send_from_directory
+from collections import Counter
+from flask import send_from_directory
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -28,11 +31,34 @@ subscribers = []
 # Cached articles
 articles_store = fetch_all_articles()
 
+views = Counter()
 # Categories
 CATEGORIES = [
     "technology", "sports", "politics", "entertainment",
     "health", "business", "world", "education"
 ]
+
+def load_breaking_news():
+    try:
+        with open("breaking.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return []
+
+def save_breaking_news(news_list):
+    with open("breaking.json", "w", encoding="utf-8") as f:
+        json.dump(news_list, f, indent=2)
+
+def load_comments():
+    try:
+        with open("comments.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def save_comments(comments):
+    with open("comments.json", "w") as f:
+        json.dump(comments, f, indent=2)
 
 
 # Load articles
@@ -62,6 +88,8 @@ def index():
     category = request.args.get("category")
     language = session.get("language", "en")
     articles = load_articles()
+    breaking_news = [a for a in articles if a.get("is_breaking") == True]
+
 
     if query:
         filtered_articles = [
@@ -81,16 +109,34 @@ def index():
             "image": article["image"]
         })
 
+        braking_news = load_breaking_news()
+
+    trending_ids = [item[0] for item in views.most_common(5)]
+    trending_articles = [a for a in articles_store if str(a["id"]) in trending_ids]
+
     return render_template("index.html",
-                                articles=translated,
-                                raw_articles=articles,
+                           articles=translated,
+                           raw_articles=articles,
                                 categories=CATEGORIES,
-                                current_year=datetime.datetime.now().year)
+                                current_year=datetime.datetime.now().year,
+                                breaking_news=breaking_news)
+                                
+@app.route("/comment/<id>", methods=["POST"])
+def comment(id):
+    name = request.form["name"]
+    text = request.form["text"]
+    comments = load_comments()
+    if id not in comments:
+        comments[id] = []
+    comments[id].append({"name": name, "text": text})
+    save_comments(comments)
+    return redirect(f"/article_raw/{id}")
 
 
 @app.route("/article/<int:id>")
 @protect_route
 def article(id):
+    views[id] += 1
     article = get_article_by_id(articles_store, id)
 
     # ✅ Protect against string errors
@@ -106,15 +152,16 @@ def article(id):
     translated_title = translate_text(article["title"], language)
     translated_content = translate_text(article["content"], language)
     audio_path = generate_voice(translated_content, id)
+    tags = request.form.get("tags", "")
 
-    print("FULL CONTENT:", article["content"])
     print("LENGTH:", len(article["content"]))
 
     return render_template("article.html", article={
         "title": translated_title,
         "content": translated_content,
         "image": article["image"],
-        "audio_path": audio_path
+        "audio_path": audio_path,
+        "tags": [t.strip() for t in tags.split(",") if t]
     }, current_year=datetime.datetime.now().year)
 
 @app.route("/set_language", methods=["POST"])
@@ -127,16 +174,18 @@ def set_language():
 @app.route('/article_raw/<article_id>')
 @protect_route
 def show_article(article_id):
+    views[id] += 1
     with open("articles.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
 
     # Find article by string ID
     article = next((a for a in articles if a["id"] == article_id), None)
-
+    tags = request.form.get("tags", "")
     if not article:
         return "Article not found", 404
     audio_path = generate_voice(article["content"], article["id"])
     article["audio_path"] = audio_path
+
 
     return render_template("article1.html", article=article)
 
@@ -154,16 +203,33 @@ def admin():
             else:
                 return render_template("admin.html", error="Wrong password", show_form=False)
 
+        if request.form.get("action") == "breaking":
+            text = request.form.get("breaking_text")
+            breaking = load_breaking_news()
+            breaking.append({
+                "id": str(uuid.uuid4()),
+                "text": text,
+                "timestamp": str(datetime.datetime.now())
+            })
+            save_breaking_news(breaking)
+            return redirect(url_for("admin"))
+
         # Admin is logged in — post article
         title = request.form.get("title")
         content = request.form.get("content")
         image_url = request.form.get("image_url")
+        tags = request.form.get("tags", "")
+        video = request.form.get("video")
+        article["video"] = video
 
         new_article = {
             "id": str(uuid.uuid4()),
             "title": title,
             "content": content,
-            "image": image_url
+            "image": image_url,
+            "video": video,
+            "tags": [t.strip() for t in tags.split(",") if t],
+
         }
 
         try:
@@ -217,6 +283,13 @@ def send_headlines_email(articles):
 @protect_route
 def about():
     return render_template("about.html", current_year=datetime.datetime.now().year)
+
+@app.route('/static/<path:filename>')
+@protect_route
+def custom_static(filename):
+    response = make_response(send_from_directory('static', filename))
+    response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
+    return response
 
 
 @app.route("/live")
@@ -277,6 +350,23 @@ def live():
 @protect_route
 def events():
     return render_template("events.html", current_year=datetime.datetime.now().year)
+
+@app.route('/OneSignalSDKWorker.js')
+def onesignal_worker():
+    return send_from_directory('.', 'OneSignalSDKWorker.js')
+
+@app.route('/OneSignalSDKUpdaterWorker.js')
+def onesignal_updater_worker():
+    return send_from_directory('.', 'OneSignalSDKUpdaterWorker.js')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
 
 
 if __name__ == "__main__":

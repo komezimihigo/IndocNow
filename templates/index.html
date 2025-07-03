@@ -6,10 +6,18 @@
   <link rel="icon" href="{{ url_for('static', filename='images/z-icon.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+<meta name="description" content="{{ 'Latest trusted news from around the world' }}">
+<meta name="keywords" content="news, Rwanda, Africa, global, politics, IndocNow">
+<meta name="author" content="IndocNow Team">
+
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-adsense-account"
+    content="ca-pub-9173125303289077">
    <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNMV7BPDRK"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -17,21 +25,18 @@
 
   gtag('config', 'G-KNMV7BPDRK');
 </script>
-
+<!-- OneSignal V16 Web Push -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-  function toggleMenu() {
-    const menu = document.getElementById("navMenu");
-    menu.classList.toggle("show");
-  }
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "3c25c9f3-39bc-4264-8176-f1a044b4f313",
+    });
+  });
 </script>
-    <title>{{ article.title if article else "IndocNow - Global News" }}</title>
-<meta name="description" content="{{ article.content[:150] if article else 'Latest world and African news' }}">
-<meta name="keywords" content="Rwanda news, African news, global news, sports, politics">
-<meta name="author" content="IndocNow">
-<link rel="canonical" href="https://indocnow.onrender.com{{ request.path }}">
 
-    <meta name="google-site-verification" content="R1gYkcgT0mnnIulZM4s28dkkOrrVnIaVaPvTqUz0mKs" />
-    <meta name="msvalidate.01" content="7CA08F751525BEAEF4EFA16289D369B3" />
+
 </head>
 <body>
  <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -40,6 +45,7 @@
 
 
 <header class="navbar">
+    <div class="logo"></div>
   <!-- Hamburger icon -->
   <div class="hamburger" onclick="toggleMenu()">
     <i class="bi bi-list"></i> <!-- Bootstrap icon -->
@@ -54,7 +60,7 @@
 
 
   <div class="middle-title">
-    <h1 class="logo">IndocNow</h1>
+    <h1 class="logo">IndocNow - Global News</h1>
   </div>
 
   <div class="right-tools">
@@ -82,6 +88,27 @@
   </div>
 </header>
 
+<div class="article-grid">
+{% if breaking_news %}
+<div class="breaking-banner">
+  <marquee behavior="scroll" direction="left">
+    {% for item in breaking_news %}
+      🔴 <strong>{{ item.text }}</strong> &nbsp;&nbsp;&nbsp;
+    {% endfor %}
+  </marquee>
+</div>
+{% endif %}
+</div>
+ <!-- Category Button -->
+<div class="category-toggle">
+  <button id="categoryBtn">All Categories <i class="bi bi-caret-down-fill"></i></button>
+  <div id="categoryList" class="category-list">
+    {% for cat in categories %}
+      <a href="/?category={{ cat }}">{{ cat|capitalize }}</a>
+    {% endfor %}
+  </div>
+</div>
+
 <div class="ad-slider-wrapper">
   <!-- Matches -->
 
@@ -108,15 +135,13 @@
   <!-- Movies -->
 </div>
 
-
-<!-- Category Button -->
-<div class="category-toggle">
-  <button id="categoryBtn">All Categories <i class="bi bi-caret-down-fill"></i></button>
-  <div id="categoryList" class="category-list">
-    {% for cat in categories %}
-      <a href="/?category={{ cat }}">{{ cat|capitalize }}</a>
-    {% endfor %}
-  </div>
+<div class="article-grid">
+<h3>🔥 Trending</h3>
+<ul>
+  {% for a in trending_articles %}
+    <li><a href="/article_raw/{{ a.id }}">{{ a.title }}</a></li>
+  {% endfor %}
+</ul>
 </div>
 
    <!-- Article Section -->
@@ -127,7 +152,7 @@
          <div class="article-card">
          <div class="article-text">
            {% if article.image and article.image.strip() != '' %}
-  <img src="{{ article.image }}" alt="News Image" />
+  <img src="https://res.cloudinary.com/dojkqtwxq/image/fetch/f_auto,q_auto/{{ article.image }}" alt="News Image" />
 {% else %}
   <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="Default Image" />
 {% endif %}
@@ -196,7 +221,7 @@
   </div>
   <p>&copy; {{ current_year }} IndocNow. All rights reserved.</p>
 </footer>
-
+<script defer src="{{ url_for('static', filename='script.js') }}"></script>
 <script>
   // Toggle categories
   document.addEventListener("DOMContentLoaded", function () {
@@ -208,6 +233,12 @@
   });
 </script>
 
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.classList.toggle("show");
+  }
+</script>
 </body>
 </html>
 

@@ -842,25 +842,90 @@ html, body {
   font-weight: 500;
 }
 
-/* MOBILE STYLE */
+
+.article-card img {
+  margin-top: 0; /* Reduce spacing */
+}
+
+.article-card {
+  padding: 10px;
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}/* Default: hide hamburger menu on large screens */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Show hamburger menu only on smaller screens */
 @media (max-width: 768px) {
+  .hamburger {
+    display: block;  /* Shows the hamburger on mobile */
+  }
+
+  /* Hide menu items by default on small screens */
   .nav-links {
     display: none;
     flex-direction: column;
-    position: absolute;
-    top: 55px;
-    right: 10px;
     background: #202020;
-    border-radius: 10px;
     padding: 10px;
-    z-index: 100;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    border-radius: 10px;
+    width: 200px;  /* Adjust menu width */
   }
 
+  /* Show menu items when clicked */
   .nav-links.show {
     display: flex;
   }
 
-  .hamburger {
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 16px;
     display: block;
   }
 }
+
+.breaking-banner {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+  font-size: 16px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.food {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+}
+
+.food input, .food select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.take {
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-top: 0px;
+  background: #ffd700;
+  padding: 10px 40px;
+  border-radius: 5px;
+  color: #000;
+  border: none;
+  text-decoration: none;
+  font-weight: bold;
